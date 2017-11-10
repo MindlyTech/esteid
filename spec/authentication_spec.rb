@@ -20,6 +20,12 @@ describe EstEID::Authentication do
   let(:legacy_instance) { described_class.new(legacy_request) }
   let(:instance) { described_class.new(request) }
 
+  before do
+    EstEID.configure do |config|
+      config.certificate_header = "HTTP_X_ESTEID_CERT"
+    end
+  end
+
   describe ".initialize" do
     it "sets variables and parses header" do
       expect(instance.eid_cert).to eql(rfc2253_header)

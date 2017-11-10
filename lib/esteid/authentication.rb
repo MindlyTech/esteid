@@ -3,7 +3,7 @@ module EstEID
     attr_reader :eid_cert
 
     def initialize(request)
-      @eid_cert = request.headers["HTTP_X_ESTEID_CERT"]
+      @eid_cert = request.headers[EstEID.config.certificate_header]
     end
 
     def valid?
