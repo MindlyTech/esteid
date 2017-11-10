@@ -52,6 +52,11 @@ describe EstEID::Authentication do
   end
 
   describe ".first_name" do
+    it "calls .normalize" do
+      expect(instance).to receive(:normalize).with("FOO")
+      instance.first_name
+    end
+
     context "with legacy header" do
       it "returns first name from EID cert header" do
         expect(legacy_instance.first_name).to eql("FOO")
@@ -66,6 +71,11 @@ describe EstEID::Authentication do
   end
 
   describe ".last_name" do
+    it "calls .normalize" do
+      expect(instance).to receive(:normalize).with("BAR")
+      instance.last_name
+    end
+
     context "with legacy header" do
       it "returns last name from EID cert header" do
         expect(legacy_instance.last_name).to eql("BAR")

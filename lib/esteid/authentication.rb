@@ -17,15 +17,28 @@ module EstEID
 
     def first_name
       return unless valid?
-      data_hash["GN"]
+      normalize(data_hash["GN"])
     end
 
     def last_name
       return unless valid?
-      data_hash["SN"]
+      normalize(data_hash["SN"])
     end
 
     private
+
+    def normalize(str)
+      result = str.gsub(/\\x([\da-fA-F]{2})/) { |m| [m].pack('H*') }
+
+      if str =~ /\\x00/
+        # UCS-2 encoding
+        result.force_encoding('utf-16be').encode!('utf-8')
+      else
+        result.force_encoding('UTF-8')
+      end
+
+      result
+    end
 
     def data_hash
       @data_hash ||= parse_header
