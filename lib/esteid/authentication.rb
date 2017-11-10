@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 module EstEID
   class Authentication
     attr_reader :eid_cert
