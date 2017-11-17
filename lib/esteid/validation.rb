@@ -32,6 +32,7 @@ module EstEID
     end
 
     def valid?
+      return false unless eid_public_key_present?
       status == "GOOD"
     end
 
@@ -41,6 +42,10 @@ module EstEID
     end
 
     private
+
+    def eid_public_key_present?
+      !@eid_public_key.nil? && !@eid_public_key.empty?
+    end
 
     def client
       @client ||= ::Savon.client(
@@ -55,7 +60,7 @@ module EstEID
 
     def response
       @response ||= client.call("CheckCertificate") do |locals|
-        locals.message "Certificate" => @certificate
+        locals.message "Certificate" => @eid_public_key
       end
     end
 
@@ -64,7 +69,7 @@ module EstEID
     end
 
     def soap_error_code
-      response.body[:fault][:faultstring]
+      response.body.dig(:fault, :faultstring)
     end
 
     def error_status(status)
