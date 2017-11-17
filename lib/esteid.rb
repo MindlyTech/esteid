@@ -6,3 +6,4 @@ end
 require "rubygems"
 require "esteid/version"
 require "esteid/authentication"
+require "esteid/validation"
