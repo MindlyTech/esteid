@@ -5,7 +5,7 @@ describe EstEID::Authentication do
     "/C=EE/O=ESTEID/OU=authentication/CN=BAR,FOO,37502266535/SN=BAR/GN=FOO/serialNumber=37502266535"
   end
 
-  let(:rfc2253_header)  do
+  let(:rfc2253_header) do
     "serialNumber=37502266535,GN=FOO,SN=BAR,CN=BAR\\,FOO\\,37502266535,OU=authentication,O=ESTEID,C=EE"
   end
 
