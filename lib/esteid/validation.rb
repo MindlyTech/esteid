@@ -4,7 +4,7 @@ module EstEID
   class Validation
     attr_reader :eid_public_key
 
-    STATUSES = {
+    ERROR_STATUSES = {
       'REVOKED' => 'cert_revoked',
       'UNKNOWN' => 'cert_unknown',
       'EXPIRED' => 'cert_expired',
@@ -75,8 +75,8 @@ module EstEID
     def error_status(status)
       return if valid?
 
-      if STATUSES.include?(status)
-        STATUSES[status]
+      if ERROR_STATUSES.include?(status)
+        ERROR_STATUSES[status]
       else
         status
       end
