@@ -2,11 +2,11 @@ require "esteid/authentication"
 
 describe EstEID::Authentication do
   let(:legacy_header) do
-    "/C=EE/O=ESTEID/OU=authentication/CN=BAR,FOO,37502266535/SN=BAR/GN=FOO/serialNumber=37502266535"
+    "/C=EE/O=ESTEID/OU=authentication/CN=BÄRNÕŠ,FOO,37502266535/SN=BÄRNÕŠ/GN=FOO/serialNumber=37502266535"
   end
 
   let(:rfc2253_header) do
-    "serialNumber=37502266535,GN=FOO,SN=BAR,CN=BAR\\,FOO\\,37502266535,OU=authentication,O=ESTEID,C=EE"
+    "serialNumber=37502266535,GN=FOO,SN=BÄRNÕŠ,CN=BÄRNÕŠ\\,FOO\\,37502266535,OU=authentication,O=ESTEID,C=EE"
   end
 
   let(:legacy_request) do
@@ -78,19 +78,19 @@ describe EstEID::Authentication do
 
   describe ".last_name" do
     it "calls .normalize" do
-      expect(instance).to receive(:normalize).with("BAR")
+      expect(instance).to receive(:normalize).with("BÄRNÕŠ")
       instance.last_name
     end
 
     context "with legacy header" do
       it "returns last name from EID cert header" do
-        expect(legacy_instance.last_name).to eql("BAR")
+        expect(legacy_instance.last_name).to eql("BÄRNÕŠ")
       end
     end
 
     context "with RFC2253 header" do
       it "returns last name from EID cert header" do
-        expect(instance.last_name).to eql("BAR")
+        expect(instance.last_name).to eql("BÄRNÕŠ")
       end
     end
   end
