@@ -53,8 +53,7 @@ module EstEID
         namespace: "http://www.sk.ee/DigiDocService/DigiDocService_2_3.wsdl",
         raise_errors: false,
         open_timeout: 10,
-        ssl_version: :TLSv1,
-        ssl_verify_mode: :none
+        ssl_version: :TLSv1
       )
     end
 
