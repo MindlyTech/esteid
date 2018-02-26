@@ -75,7 +75,7 @@ module EstEID
     end
 
     def certificate_status
-      cert_response = response.body[:check_cert_response]
+      cert_response = response.body[:check_certificate_response]
       return unless cert_response && cert_response[:status]
 
       cert_response[:status]
