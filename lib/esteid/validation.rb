@@ -78,6 +78,8 @@ module EstEID
       cert_response = response.body[:check_certificate_response]
       return unless cert_response && cert_response[:status]
 
+      puts "CERT RESPONSE: #{cert_response}"
+      puts "CERT STATUS: #{cert_response[:status]}"
       cert_response[:status]
     end
 
