@@ -32,18 +32,18 @@ module EstEID
     def normalize(str)
       puts "NORMALIZE STR: #{str}"
       # str = str.gsub(/\\x([\da-fA-F]{2})/) { |m| [m].pack('H*') }
-      str=str.gsub("/\\\\x([0-9ABCDEF]{1,2})/e", "chr(hexdec('\\1'))")
+      str = str.gsub("/\\\\x([0-9ABCDEF]{1,2})/e", "chr(hexdec('\\1'))")
       puts "NORMALIZE AFTER GSUB RESULT: #{str}"
 
       if str =~ /\\x00/
         # UCS-2 encoding
         # result.force_encoding('utf-16be').encode!('utf-8')
-        conv=Iconv.new("UTF-8//IGNORE","UTF-16")
-        str=conv.iconv(str)
+        str = Iconv.conv("UTF-8//IGNORE","UTF-16BE", str)
+        puts "NORMALIZE AFTER Iconv RESULT: #{str}"
       else
         str.force_encoding('UTF-8')
       end
-      puts "NORMALIZE RESULT: #{str}"
+      puts "NORMALIZE FINAL RESULT: #{str}"
 
       str
     end
