@@ -31,7 +31,8 @@ module EstEID
 
     def normalize(str)
       puts "NORMALIZE STR: #{str}"
-      str = str.gsub(/\\x([\da-fA-F]{2})/) { |m| [m].pack('H*') }
+      # str = str.gsub(/\\x([\da-fA-F]{2})/) { |m| [m].pack('H*') }
+      str=str.gsub("/\\\\x([0-9ABCDEF]{1,2})/e", "chr(hexdec('\\1'))")
       puts "NORMALIZE AFTER GSUB RESULT: #{str}"
 
       if str =~ /\\x00/
