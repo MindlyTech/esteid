@@ -1,3 +1,5 @@
+require 'iconv'
+
 module EstEID
   class Authentication
     attr_reader :eid_cert
@@ -29,18 +31,20 @@ module EstEID
 
     def normalize(str)
       puts "NORMALIZE STR: #{str}"
-      result = str.gsub(/\\x([\da-fA-F]{2})/) { |m| [m].pack('H*') }
-      puts "NORMALIZE AFTER GSUB RESULT: #{result}"
+      str = str.gsub(/\\x([\da-fA-F]{2})/) { |m| [m].pack('H*') }
+      puts "NORMALIZE AFTER GSUB RESULT: #{str}"
 
       if str =~ /\\x00/
         # UCS-2 encoding
-        result.force_encoding('utf-16be').encode!('utf-8')
+        # result.force_encoding('utf-16be').encode!('utf-8')
+        conv=Iconv.new("UTF-8//IGNORE","UTF-16")
+        str=conv.iconv(str)
       else
-        result.force_encoding('UTF-8')
+        str.force_encoding('UTF-8')
       end
-      puts "NORMALIZE RESULT: #{result}"
+      puts "NORMALIZE RESULT: #{str}"
 
-      result
+      str
     end
 
     def data_hash
