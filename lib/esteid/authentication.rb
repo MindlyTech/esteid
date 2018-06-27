@@ -35,14 +35,15 @@ module EstEID
       str = str.gsub("/\\\\x([0-9ABCDEF]{1,2})/e", "chr(hexdec('\\1'))")
       puts "NORMALIZE AFTER GSUB RESULT: #{str}"
 
-      if str =~ /\\x00/
+      # if str.index("\x00")
         # UCS-2 encoding
         # result.force_encoding('utf-16be').encode!('utf-8')
-        str = Iconv.conv("UTF-8//IGNORE","UTF-16BE", str)
+        conv=Iconv.new("UTF-8//IGNORE","UTF-16")
+        str=conv.iconv(str)
         puts "NORMALIZE AFTER Iconv RESULT: #{str}"
-      else
-        str.force_encoding('UTF-8')
-      end
+      # else
+      #   str.force_encoding('UTF-8')
+      # end
       puts "NORMALIZE FINAL RESULT: #{str}"
 
       str
