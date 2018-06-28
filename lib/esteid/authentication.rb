@@ -28,7 +28,7 @@ module EstEID
     private
 
     def normalize(str)
-      result = str.gsub(/\\x([\da-fA-F]{2})/) { |m| [m].pack('H*') }
+      result = str.gsub(/\\x([\da-fA-F]{2})/) { |m| [$1].pack("H*") }
 
       if str =~ /\\x00/
         # UCS-2 encoding
