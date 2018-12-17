@@ -12,7 +12,7 @@ module EstEID
 
     def identity_code
       return unless valid?
-      data_hash["serialNumber"]
+      data_hash["serialNumber"].gsub('PNOEE-', '')
     end
 
     def first_name

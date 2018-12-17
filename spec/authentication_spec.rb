@@ -9,6 +9,10 @@ describe EstEID::Authentication do
     "serialNumber=37502266535,GN=FOO,SN=BÄRNÕŠ,CN=BÄRNÕŠ\\,FOO\\,37502266535,OU=authentication,O=ESTEID,C=EE"
   end
 
+  let(:idemia_header) do
+    "/C=EE/CN=J\xC3\x95EORG,JAAK-KRISTJAN,38001085718/SN=J\xC3\x95EORG/GN=JAAK-KRISTJAN/serialNumber=PNOEE-38001085718"
+  end
+
   let(:legacy_request) do
     double(:request, headers: { "HTTP_X_ESTEID_CERT" => legacy_header })
   end
@@ -17,6 +21,11 @@ describe EstEID::Authentication do
     double(:request, headers: { "HTTP_X_ESTEID_CERT" => rfc2253_header })
   end
 
+  let(:idemia_request) do
+    double(:request, headers: { "HTTP_X_ESTEID_CERT" => idemia_header })
+  end
+
+  let(:idemia_instance) { described_class.new(idemia_request) }
   let(:legacy_instance) { described_class.new(legacy_request) }
   let(:instance) { described_class.new(request) }
 
@@ -55,6 +64,12 @@ describe EstEID::Authentication do
         expect(instance.identity_code).to eql("37502266535")
       end
     end
+
+    context "with idemia header" do
+      it "returns identity code from EID cert header" do
+        expect(idemia_instance.identity_code).to eql("38001085718")
+      end
+    end
   end
 
   describe ".first_name" do
@@ -74,6 +89,12 @@ describe EstEID::Authentication do
         expect(instance.first_name).to eql("FOO")
       end
     end
+
+    context "with idemia header" do
+      it "returns first name from EID cert header" do
+        expect(idemia_instance.first_name).to eql("JAAK-KRISTJAN")
+      end
+    end
   end
 
   describe ".last_name" do
@@ -91,6 +112,12 @@ describe EstEID::Authentication do
     context "with RFC2253 header" do
       it "returns last name from EID cert header" do
         expect(instance.last_name).to eql("BÄRNÕŠ")
+      end
+    end
+
+    context "with idemia header" do
+      it "returns last name from EID cert header" do
+        expect(idemia_instance.last_name).to eql("JÕEORG")
       end
     end
   end
